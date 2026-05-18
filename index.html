@@ -4,201 +4,262 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gabriel Freitas — Copywriter DR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --black: #0A0A0A;
-  --black2: #111111;
-  --chrome: #B0B3B8;
-  --chrome-lt: #D8DADC;
-  --chrome-dim: #7A7D82;
-  --white: #FFFFFF;
-  --text: #1C1C1C;
-  --text-mid: #555555;
-  --light: #F4F4F4;
-  --border: #E0E0E0;
-}
-html { scroll-behavior: smooth; }
-body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--white); color: var(--text); line-height: 1.7; }
+  :root {
+    --black: #080808;
+    --black-2: #111111;
+    --black-3: #1a1a1a;
+    --chrome: #b0b3b8;
+    --chrome-lt: #d8dadc;
+    --chrome-dim: #6e7178;
+    --white: #f5f5f3;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--chrome-lt);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--chrome);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--chrome-dim);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1000;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 28px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 3px;
+    color: var(--chrome-lt); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--chrome-dim); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--chrome-lt); }
 
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,10,10,0.97); backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 5%; height: 60px;
-  border-bottom: 1px solid rgba(176,179,184,0.15);
-}
-.nav-logo { font-size: 18px; font-weight: 700; color: var(--white); }
-.nav-logo span { color: var(--chrome); }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a {
-  color: var(--chrome-dim); text-decoration: none;
-  font-size: 12px; letter-spacing: 0.8px; text-transform: uppercase;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--chrome-lt); }
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 0 60px 80px; position: relative; overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; top: 50%; left: -20px;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(180px, 28vw, 380px);
+    color: rgba(255,255,255,0.018);
+    line-height: 1; white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -5px;
+  }
+  .hero-tag {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--chrome-dim); margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 13vw, 180px);
+    line-height: 0.9; letter-spacing: -2px; color: var(--white);
+    opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .hero-name span { color: var(--chrome); display: block; }
+  .hero-sub {
+    margin-top: 32px; display: flex; align-items: center; gap: 40px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.55s forwards;
+  }
+  .hero-sub p { font-size: 15px; color: var(--chrome-dim); max-width: 360px; line-height: 1.7; }
+  .hero-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--chrome-dim), transparent); max-width: 200px; }
+  .hero-scroll {
+    position: absolute; bottom: 40px; right: 60px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards;
+  }
+  .hero-scroll span {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--chrome-dim); writing-mode: vertical-rl;
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--chrome-dim), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
 
-/* HERO */
-#hero {
-  background: var(--black);
-  min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 100px 5% 80px;
-  position: relative; overflow: hidden;
-}
-#hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    90deg, transparent, transparent 80px,
-    rgba(176,179,184,0.015) 80px, rgba(176,179,184,0.015) 81px
-  );
-  pointer-events: none;
-}
-.hero-tag {
-  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--chrome-dim); margin-bottom: 24px;
-}
-.hero-name {
-  font-size: clamp(60px, 10vw, 120px);
-  font-weight: 800; line-height: 0.9;
-  color: var(--white); letter-spacing: -3px; margin-bottom: 4px;
-}
-.hero-name-sub {
-  font-size: clamp(60px, 10vw, 120px);
-  font-weight: 800; line-height: 0.9;
-  color: var(--chrome); letter-spacing: -3px; margin-bottom: 40px;
-}
-.hero-desc {
-  font-size: 15px; color: var(--chrome-dim);
-  max-width: 420px; line-height: 1.7; margin-bottom: 40px;
-}
-.hero-scroll {
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--chrome-dim);
-}
+  section { padding: 120px 60px; position: relative; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--chrome-dim); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-eyebrow::after {
+    content: ''; flex: 1; height: 1px; background: var(--black-3); max-width: 80px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    color: var(--white); line-height: 1.1; margin-bottom: 60px;
+  }
 
-/* DRIVE BAND */
-.drive-band {
-  background: var(--black2);
-  border-top: 1px solid rgba(176,179,184,0.08);
-  border-bottom: 1px solid rgba(176,179,184,0.08);
-  padding: 28px 5%;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-}
-.drive-band-label {
-  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--chrome-dim);
-}
-.drive-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  border: 1px solid rgba(176,179,184,0.25);
-  color: var(--chrome-lt); text-decoration: none;
-  padding: 11px 22px; font-size: 13px; font-weight: 500;
-  transition: all 0.25s;
-}
-.drive-btn:hover { background: rgba(176,179,184,0.07); border-color: var(--chrome); }
-.drive-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+  #trajetoria { background: var(--black-2); border-top: 1px solid var(--black-3); }
+  .traj-grid { display: grid; grid-template-columns: 280px 1fr; gap: 80px; align-items: start; }
+  .traj-sidebar { position: sticky; top: 120px; }
+  .traj-sidebar .section-title { font-size: 42px; margin-bottom: 24px; }
+  .traj-sidebar-note {
+    font-size: 13px; color: var(--chrome-dim); line-height: 1.7;
+    border-left: 1px solid var(--black-3); padding-left: 16px;
+  }
+  .traj-blocks { display: flex; flex-direction: column; }
+  .traj-block {
+    display: grid; grid-template-columns: 90px 1fr; gap: 32px;
+    padding: 40px 0; border-bottom: 1px solid var(--black-3);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .traj-block.visible { opacity: 1; transform: none; }
+  .traj-block:first-child { padding-top: 0; }
+  .traj-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; letter-spacing: 2px; color: var(--chrome-dim); padding-top: 4px;
+  }
+  .traj-content h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px; color: var(--white); margin-bottom: 12px; font-style: italic;
+  }
+  .traj-content p { font-size: 14px; color: var(--chrome-dim); line-height: 1.85; }
+  .traj-content p + p { margin-top: 12px; }
 
-/* SECTIONS */
-section { padding: 96px 5%; }
-.section-num {
-  display: block; font-size: 11px; letter-spacing: 2px;
-  color: var(--chrome-dim); text-transform: uppercase; margin-bottom: 12px;
-}
-.section-title {
-  font-size: clamp(28px, 4vw, 42px); font-weight: 800;
-  letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 48px;
-}
+  #numeros { background: var(--black); border-top: 1px solid var(--black-3); }
+  .numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 60px; }
+  .number-card {
+    background: var(--black-2); padding: 48px 32px; position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .number-card.visible { opacity: 1; transform: none; }
+  .number-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--chrome-dim), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .number-card:hover::before { opacity: 1; }
+  .number-card .num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 44px;
+    color: var(--chrome-lt); line-height: 1; margin-bottom: 10px; letter-spacing: 1px;
+  }
+  .number-card .lbl {
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--chrome-dim); line-height: 1.5;
+  }
+  .number-card .sub { font-size: 10px; color: #3a3c40; margin-top: 16px; letter-spacing: 1px; text-transform: uppercase; }
+  .numbers-note {
+    font-size: 12px; color: var(--chrome-dim);
+    border-left: 2px solid var(--black-3); padding-left: 20px; line-height: 1.8; font-style: italic;
+  }
 
-/* TRAJETÓRIA */
-#trajetoria { background: var(--light); }
-.tl-item {
-  display: grid; grid-template-columns: 110px 1fr;
-  gap: 0 32px; padding: 32px 0;
-  border-bottom: 1px solid var(--border);
-}
-.tl-item:first-child { border-top: 1px solid var(--border); }
-.tl-date {
-  font-size: 11px; color: var(--chrome-dim); letter-spacing: 1px;
-  text-transform: uppercase; padding-top: 4px;
-}
-.tl-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-.tl-body p { font-size: 14px; color: var(--text-mid); line-height: 1.75; }
-.tl-body p + p { margin-top: 10px; }
+  #entregas { background: var(--black-2); border-top: 1px solid var(--black-3); }
+  .entregas-text {
+    max-width: 680px; font-size: 18px; color: var(--chrome-dim); line-height: 1.85;
+    font-family: 'DM Serif Display', serif; font-style: italic;
+  }
 
-/* NÚMEROS */
-#numeros { background: var(--black); }
-#numeros .section-num { color: var(--chrome-dim); }
-#numeros .section-title { color: var(--white); }
-.nums-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 2px; margin-bottom: 20px;
-}
-.num-card { background: var(--black2); padding: 36px 28px; border: 1px solid rgba(176,179,184,0.07); }
-.num-val { font-size: 32px; font-weight: 800; color: var(--chrome-lt); letter-spacing: -1px; margin-bottom: 10px; }
-.num-label { font-size: 13px; color: var(--chrome-dim); line-height: 1.5; }
-.num-sub { font-size: 11px; color: #444; margin-top: 6px; }
-.nums-note { font-size: 12px; color: #444; }
+  #nichos { background: var(--black); border-top: 1px solid var(--black-3); }
+  .nicho-intro { font-size: 14px; color: var(--chrome-dim); margin-bottom: 48px; }
+  .nichos-list { display: flex; flex-direction: column; gap: 2px; }
+  .nicho-item {
+    display: grid; grid-template-columns: 40px 200px 1fr auto;
+    gap: 32px; align-items: center; padding: 28px 32px;
+    background: var(--black-2);
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s;
+  }
+  .nicho-item.visible { opacity: 1; transform: none; }
+  .nicho-item:hover { background: var(--black-3); }
+  .nicho-num { font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 2px; color: var(--chrome-dim); }
+  .nicho-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); font-style: italic; }
+  .nicho-desc { font-size: 13px; color: var(--chrome-dim); line-height: 1.7; }
+  .nicho-tag {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--chrome-dim); border: 1px solid var(--black-3); padding: 5px 12px; white-space: nowrap;
+  }
+  .nicho-tag.hl { color: var(--chrome); border-color: var(--chrome-dim); }
 
-/* FORMATOS */
-#entregas { background: var(--white); }
-.entregas-text {
-  font-size: 15px; color: var(--text-mid); line-height: 1.8;
-  max-width: 680px; padding-left: 20px;
-  border-left: 2px solid var(--chrome-dim);
-}
+  #contato { background: var(--black-2); border-top: 1px solid var(--black-3); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-left .section-title { margin-bottom: 24px; }
+  .contact-left p { font-size: 14px; color: var(--chrome-dim); line-height: 1.85; max-width: 360px; }
+  .contact-links { display: flex; flex-direction: column; gap: 2px; margin-top: 20px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 24px;
+    padding: 22px 28px; background: var(--black-3);
+    text-decoration: none; border-left: 2px solid transparent;
+    transition: background 0.2s, padding-left 0.2s, border-color 0.2s;
+  }
+  .contact-item:hover { background: var(--black); border-left-color: var(--chrome-dim); padding-left: 36px; }
+  .contact-item-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--chrome-dim); width: 80px; flex-shrink: 0;
+  }
+  .contact-item-value { font-size: 15px; color: var(--chrome-lt); font-weight: 400; }
 
-/* NICHOS */
-#nichos { background: var(--light); }
-.nichos-intro { font-size: 14px; color: var(--text-mid); margin-bottom: 36px; max-width: 580px; }
-.nichos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-.nicho-card { background: var(--white); padding: 28px 22px; border: 1px solid var(--border); }
-.nicho-card .n-num { font-size: 10px; letter-spacing: 1.5px; color: var(--chrome-dim); text-transform: uppercase; margin-bottom: 12px; }
-.nicho-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
-.nicho-card p { font-size: 13px; color: var(--text-mid); line-height: 1.65; margin-bottom: 14px; }
-.nicho-tag { display: inline-block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--chrome-dim); border: 1px solid var(--border); padding: 3px 9px; }
+  footer {
+    padding: 40px 60px; background: var(--black); border-top: 1px solid var(--black-3);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 11px; letter-spacing: 1.5px; color: var(--chrome-dim); text-transform: uppercase; }
 
-/* CONTATO */
-#contato { background: var(--black); }
-#contato .section-num { color: var(--chrome-dim); }
-#contato .section-title { color: var(--white); }
-.contato-sub { font-size: 15px; color: var(--chrome-dim); margin-bottom: 40px; max-width: 420px; }
-.contato-links { display: flex; flex-direction: column; gap: 2px; }
-.contato-link {
-  display: flex; align-items: center; gap: 16px;
-  padding: 18px 22px; background: var(--black2);
-  border: 1px solid rgba(176,179,184,0.07);
-  text-decoration: none; color: var(--chrome-lt);
-  font-size: 14px; transition: all 0.2s; max-width: 440px;
-}
-.contato-link:hover { border-color: rgba(176,179,184,0.25); }
-.cl-tipo { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--chrome-dim); min-width: 72px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes scrollPulse { 0%,100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.5); opacity: 0.4; } }
 
-/* FOOTER */
-footer {
-  background: var(--black); padding: 24px 5%;
-  border-top: 1px solid rgba(176,179,184,0.07);
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-}
-footer p { font-size: 12px; color: #333; }
-
-@media (max-width: 700px) {
-  .nav-links { display: none; }
-  .nums-grid { grid-template-columns: 1fr 1fr; }
-  .tl-item { grid-template-columns: 75px 1fr; gap: 0 16px; }
-  .hero-name, .hero-name-sub { letter-spacing: -1px; }
-  .drive-band { flex-direction: column; align-items: flex-start; }
-}
+  @media (max-width: 900px) {
+    nav { padding: 24px 28px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 28px 60px; }
+    section { padding: 80px 28px; }
+    .traj-grid { grid-template-columns: 1fr; gap: 40px; }
+    .traj-sidebar { position: static; }
+    .numbers-grid { grid-template-columns: repeat(2, 1fr); }
+    .nicho-item { grid-template-columns: 30px 1fr; }
+    .nicho-desc, .nicho-tag { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <nav>
-  <div class="nav-logo">GF<span>.</span></div>
+  <a href="#" class="nav-logo">GF</a>
   <ul class="nav-links">
     <li><a href="#trajetoria">Trajetória</a></li>
     <li><a href="#numeros">Resultados</a></li>
@@ -209,185 +270,225 @@ footer p { font-size: 12px; color: #333; }
 </nav>
 
 <!-- HERO -->
-<section id="hero">
-  <div class="hero-tag">FREITAS · Copywriter · Resposta Direta · USA Market</div>
-  <div class="hero-name">Gabriel</div>
-  <div class="hero-name-sub">Freitas</div>
-  <p class="hero-desc">Copy que converte no mercado americano. Especialista em ED, Diabetes e Emagrecimento.</p>
-  <div class="hero-scroll">Scroll</div>
+<section class="hero">
+  <div class="hero-bg-text">FREITAS</div>
+  <p class="hero-tag">Copywriter · Resposta Direta · USA Market</p>
+  <h1 class="hero-name">
+    Gabriel<span>Freitas</span>
+  </h1>
+  <div class="hero-sub">
+    <p>Copy que converte no mercado americano. Especialista em ED, Diabetes e Emagrecimento.</p>
+    <div class="hero-line"></div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
 </section>
-
-<!-- DRIVE BAND -->
-<div class="drive-band">
-  <span class="drive-band-label">Amostras de anúncios</span>
-  <a class="drive-btn" href="https://drive.google.com/drive/folders/1KQ3-5pmGMAfjUvnbkjn18stIW4IMKG2X?usp=sharing" target="_blank" rel="noopener">
-    <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
-      <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
-      <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
-      <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
-      <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
-      <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
-      <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
-    </svg>
-    Ver anúncios no Google Drive →
-  </a>
-</div>
 
 <!-- TRAJETÓRIA -->
 <section id="trajetoria">
-  <span class="section-num">01</span>
-  <h2 class="section-title">Trajetória</h2>
-
-  <div class="tl-item">
-    <div class="tl-date">2021–2024</div>
-    <div class="tl-body">
-      <h3>O início sem resultado</h3>
-      <p>Entrei no mercado digital em 2021. Nos primeiros três anos fiquei tentando rodar info, sem networking, sem capital e, consequentemente, sem resultado.</p>
+  <div class="section-inner">
+    <div class="traj-grid">
+      <div class="traj-sidebar">
+        <p class="section-eyebrow">01</p>
+        <h2 class="section-title">Trajetória</h2>
+        <p class="traj-sidebar-note">Do zero ao mercado americano, passando por duas agências e aprendendo cada coisa na marra.</p>
+      </div>
+      <div class="traj-blocks">
+        <div class="traj-block">
+          <div class="traj-year">2021–2024</div>
+          <div class="traj-content">
+            <h3>O início sem resultado</h3>
+            <p>Entrei no mercado digital em 2021. Nos primeiros três anos fiquei tentando rodar info, sem networking, sem capital e, consequentemente, sem resultado.</p>
+          </div>
+        </div>
+        <div class="traj-block">
+          <div class="traj-year">AGO 2024</div>
+          <div class="traj-content">
+            <h3>Agência Titan</h3>
+            <p>Meu primeiro contato real com o mercado de resposta direta e nutraceuticos. Na época, não sabia que era possível entrar como copy sem ter resultados, então entrei como editor — onde eu tinha mais familiaridade. Entrei como junior, fiquei até março de 2025 e saí como head de edição da empresa.</p>
+          </div>
+        </div>
+        <div class="traj-block">
+          <div class="traj-year">MAR 2025</div>
+          <div class="traj-content">
+            <h3>Primeira posição como Copy</h3>
+            <p>Entrei na última empresa onde estava, já na função de copy. Fui o primeiro editor e copy da empresa — a operação ainda estava no início.</p>
+            <p>Depois de 5 meses entrou outro copy, mas ele ficava exclusivamente com o YouTube. Nunca entendi bem o porquê dessa divisão — isso me atrapalhou bastante na minha evolução. Nesse tempo iria testar muita coisa, mas me proibiram de escrever.</p>
+            <p>Não tinha nenhum head de copy lá dentro, então tive que aprender e tomar decisões sozinho.</p>
+          </div>
+        </div>
+        <div class="traj-block">
+          <div class="traj-year">AGO 2025</div>
+          <div class="traj-content">
+            <h3>Primeira escala real — ED</h3>
+            <p>Minha primeira escala no Meta, no nicho de ED. Meus anúncios em vídeos e imagens geraram $199.637 em receita direta, dentro de uma escala total de $628.774,91 de faturamento.</p>
+          </div>
+        </div>
+        <div class="traj-block">
+          <div class="traj-year">FEV 2026</div>
+          <div class="traj-content">
+            <h3>Escala — Diabetes</h3>
+            <p>Escalamos no Meta com diabetes — apenas com imagens. Nenhum vídeo de nenhum copy da operação encaixou. Meus anúncios fizeram $175.819 dentro de uma escala total de $414.726.</p>
+            <p>Foi também nesse mês que o editor que eu treinei tomou a posição de head e eu fiquei apenas como copy. Antes disso, tomava conta do treinamento dos editores, organização de VSL no Vturb, edição de plug de pré-leads e micro leads. Nas duas empresas treinei todos os editores do junior até dois se tornarem heads — na Titan, o head fui eu que treinei também.</p>
+          </div>
+        </div>
+        <div class="traj-block">
+          <div class="traj-year">MAR 2026</div>
+          <div class="traj-content">
+            <h3>YouTube — ED</h3>
+            <p>Mesmo com a fonte instável no YouTube, consegui $13k no nicho de ED — um resultado pequeno no contexto, mas relevante dado o ambiente adverso.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="tl-item">
-    <div class="tl-date">AGO 2024</div>
-    <div class="tl-body">
-      <h3>Agência Titan</h3>
-      <p>Meu primeiro contato real com o mercado de resposta direta e nutraceuticos. Na época, não sabia que era possível entrar como copy sem ter resultados, então entrei como editor — onde eu tinha mais familiaridade. Entrei como junior, fiquei até março de 2025 e saí como head de edição da empresa.</p>
-    </div>
-  </div>
-
-  <div class="tl-item">
-    <div class="tl-date">MAR 2025</div>
-    <div class="tl-body">
-      <h3>Primeira posição como Copy</h3>
-      <p>Entrei na última empresa onde estava, já na função de copy. Fui o primeiro editor e copy da empresa — a operação ainda estava no início.</p>
-      <p>Depois de 5 meses entrou outro copy, mas ele ficava exclusivamente com o YouTube. Nunca entendi bem o porquê dessa divisão — isso me atrapalhou bastante na minha evolução. Nesse tempo iria testar muita coisa, mas me proibiram de escrever.</p>
-      <p>Não tinha nenhum head de copy lá dentro, então tive que aprender e tomar decisões sozinho.</p>
-    </div>
-  </div>
-
-  <div class="tl-item">
-    <div class="tl-date">AGO 2025</div>
-    <div class="tl-body">
-      <h3>Primeira escala real — ED</h3>
-      <p>Minha primeira escala no Meta, no nicho de ED. Meus anúncios em vídeos e imagens geraram $199.637 em receita direta, dentro de uma escala total de $628.774,91 de faturamento.</p>
-    </div>
-  </div>
-
-  <div class="tl-item">
-    <div class="tl-date">FEV 2026</div>
-    <div class="tl-body">
-      <h3>Escala — Diabetes</h3>
-      <p>Escalamos no Meta com diabetes — apenas com imagens. Nenhum vídeo de nenhum copy da operação encaixou. Meus anúncios fizeram $175.819 dentro de uma escala total de $414.726.</p>
-      <p>Foi também nesse mês que o editor que eu treinei tomou a posição de head e eu fiquei apenas como copy. Antes disso, tomava conta do treinamento dos editores, organização de VSL no Vturb, edição de plug de pré-leads e micro leads. Nas duas empresas treinei todos os editores do junior até dois se tornarem heads — na Titan, o head fui eu que treinei também.</p>
-    </div>
-  </div>
-
-  <div class="tl-item">
-    <div class="tl-date">MAR 2026</div>
-    <div class="tl-body">
-      <h3>YouTube — ED</h3>
-      <p>Mesmo com a fonte instável no YouTube, consegui $13k no nicho de ED — um resultado pequeno no contexto, mas relevante dado o ambiente adverso.</p>
-    </div>
-  </div>
-
 </section>
 
 <!-- NÚMEROS -->
 <section id="numeros">
-  <span class="section-num">02</span>
-  <h2 class="section-title">Números</h2>
-  <div class="nums-grid">
-    <div class="num-card">
-      <div class="num-val">$199.637</div>
-      <div class="num-label">Resultado<br>ED — Meta</div>
-      <div class="num-sub">Meus ads</div>
+  <div class="section-inner">
+    <p class="section-eyebrow">02</p>
+    <h2 class="section-title">Números</h2>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="num">$199.637</div>
+        <div class="lbl">Resultado<br>ED — Meta</div>
+        <div class="sub">Meus ads</div>
+      </div>
+      <div class="number-card">
+        <div class="num">$628.774</div>
+        <div class="lbl">Escala Total<br>ED</div>
+        <div class="sub">Agosto 2025</div>
+      </div>
+      <div class="number-card">
+        <div class="num">$175.819</div>
+        <div class="lbl">Resultado<br>Diabetes — Meta</div>
+        <div class="sub">Meus ads</div>
+      </div>
+      <div class="number-card">
+        <div class="num">$414.726</div>
+        <div class="lbl">Escala Total<br>Diabetes</div>
+        <div class="sub">Fevereiro 2026</div>
+      </div>
     </div>
-    <div class="num-card">
-      <div class="num-val">$628.774</div>
-      <div class="num-label">Escala Total<br>ED</div>
-      <div class="num-sub">Agosto 2025</div>
-    </div>
-    <div class="num-card">
-      <div class="num-val">$175.819</div>
-      <div class="num-label">Resultado<br>Diabetes — Meta</div>
-      <div class="num-sub">Meus ads</div>
-    </div>
-    <div class="num-card">
-      <div class="num-val">$414.726</div>
-      <div class="num-label">Escala Total<br>Diabetes</div>
-      <div class="num-sub">Fevereiro 2026</div>
-    </div>
+    <p class="numbers-note">Escala de ED — agosto/2025 (vídeos + imagens) · Escala de Diabetes — fevereiro/2026 (apenas imagens) · YouTube ED — março/2026: $13.000</p>
   </div>
-  <p class="nums-note">Escala de ED — agosto/2025 (vídeos + imagens) · Escala de Diabetes — fevereiro/2026 (apenas imagens) · YouTube ED — março/2026: $13.000</p>
 </section>
 
-<!-- FORMATOS -->
+<!-- FORMATOS E ENTREGAS -->
 <section id="entregas">
-  <span class="section-num">03</span>
-  <h2 class="section-title">Formatos & Entregas</h2>
-  <p class="entregas-text">
-    Nesse tempo que fiquei na empresa eu foquei mais em ads em vídeos e imagens. Fiz algumas micro leads para ED, mas deu uma pequena oxigenada nas ofertas na época — então não vou colocar aqui como resultado.
-  </p>
+  <div class="section-inner">
+    <p class="section-eyebrow">03</p>
+    <h2 class="section-title">Formatos &amp;<br>Entregas</h2>
+    <p class="entregas-text">Nesse tempo que fiquei na empresa eu foquei mais em ads em vídeos e imagens. Fiz algumas micro leads para ED, mas deu uma pequena oxigenada nas ofertas na época — então não vou colocar aqui como resultado.</p>
+  </div>
 </section>
 
 <!-- NICHOS -->
 <section id="nichos">
-  <span class="section-num">04</span>
-  <h2 class="section-title">Mercados de Atuação</h2>
-  <p class="nichos-intro">Todos os nichos em que rodei foram no mercado americano (USA). Em ordem decrescente de volume e resultado:</p>
-  <div class="nichos-grid">
-    <div class="nicho-card">
-      <div class="n-num">01</div>
-      <h3>ED</h3>
-      <p>Meu nicho principal e onde obtive a maior escala. Anúncios em vídeo e imagem, com copy emocional e mecanismo único forte.</p>
-      <span class="nicho-tag">Maior resultado</span>
-    </div>
-    <div class="nicho-card">
-      <div class="n-num">02</div>
-      <h3>Diabetes</h3>
-      <p>Segunda maior escala. Rodou inteiramente com imagens — nenhum vídeo encaixou nessa operação, de nenhum copy da equipe.</p>
-      <span class="nicho-tag">Apenas imagens</span>
-    </div>
-    <div class="nicho-card">
-      <div class="n-num">03</div>
-      <h3>Emagrecimento</h3>
-      <p>Nicho com alto volume de anúncios e competição acirrada. Boa base de pesquisa e modelagem de concorrentes.</p>
-      <span class="nicho-tag">Alta competição</span>
-    </div>
-    <div class="nicho-card">
-      <div class="n-num">04</div>
-      <h3>Memória</h3>
-      <p>Nunca escalamos nada. Testamos ângulos e ofertas diferentes, mas não conseguimos encaixar nenhuma combinação que funcionasse.</p>
-      <span class="nicho-tag">Sem escala</span>
+  <div class="section-inner">
+    <p class="section-eyebrow">04</p>
+    <h2 class="section-title">Mercados de<br>Atuação</h2>
+    <p class="nicho-intro">Todos os nichos em que rodei foram no mercado americano (USA). Em ordem decrescente de volume e resultado:</p>
+    <div class="nichos-list">
+      <div class="nicho-item">
+        <div class="nicho-num">01</div>
+        <div class="nicho-name">ED</div>
+        <div class="nicho-desc">Meu nicho principal e onde obtive a maior escala. Anúncios em vídeo e imagem, com copy emocional e mecanismo único forte.</div>
+        <div class="nicho-tag hl">Maior resultado</div>
+      </div>
+      <div class="nicho-item">
+        <div class="nicho-num">02</div>
+        <div class="nicho-name">Diabetes</div>
+        <div class="nicho-desc">Segunda maior escala. Rodou inteiramente com imagens — nenhum vídeo encaixou nessa operação, de nenhum copy da equipe.</div>
+        <div class="nicho-tag hl">Apenas imagens</div>
+      </div>
+      <div class="nicho-item">
+        <div class="nicho-num">03</div>
+        <div class="nicho-name">Emagrecimento</div>
+        <div class="nicho-desc">Nicho com alto volume de anúncios e competição acirrada. Boa base de pesquisa e modelagem de concorrentes.</div>
+        <div class="nicho-tag">Alta competição</div>
+      </div>
+      <div class="nicho-item">
+        <div class="nicho-num">04</div>
+        <div class="nicho-name">Memória</div>
+        <div class="nicho-desc">Nunca escalamos nada. Testamos ângulos e ofertas diferentes, mas não conseguimos encaixar nenhuma combinação que funcionasse.</div>
+        <div class="nicho-tag">Sem escala</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTATO -->
 <section id="contato">
-  <span class="section-num">05</span>
-  <h2 class="section-title">Contato</h2>
-  <p class="contato-sub">Se você tem uma oferta que precisa de copy que converte no mercado americano, estou disponível para conversar.</p>
-  <div class="contato-links">
-    <a class="contato-link" href="mailto:freitasbusiness6@gmail.com">
-      <span class="cl-tipo">E-mail</span>
-      freitasbusiness6@gmail.com
-    </a>
-    <a class="contato-link" href="https://wa.me/5512997879386" target="_blank" rel="noopener">
-      <span class="cl-tipo">WhatsApp</span>
-      +55 (12) 99787-9386
-    </a>
-    <a class="contato-link" href="https://instagram.com/freitas_lll6" target="_blank" rel="noopener">
-      <span class="cl-tipo">Instagram</span>
-      @freitas_lll6
-    </a>
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <p class="section-eyebrow">05</p>
+        <h2 class="section-title">Contato</h2>
+        <p>Se você tem uma oferta que precisa de copy que converte no mercado americano, estou disponível para conversar.</p>
+      </div>
+      <div>
+        <div class="contact-links">
+          <a class="contact-item" href="mailto:freitasbusiness6@gmail.com">
+            <span class="contact-item-label">E-mail</span>
+            <span class="contact-item-value">freitasbusiness6@gmail.com</span>
+          </a>
+          <a class="contact-item" href="https://wa.me/5512997879386">
+            <span class="contact-item-label">WhatsApp</span>
+            <span class="contact-item-value">+55 (12) 99787-9386</span>
+          </a>
+          <a class="contact-item" href="https://instagram.com/freitas_lll6" target="_blank">
+            <span class="contact-item-label">Instagram</span>
+            <span class="contact-item-value">@freitas_lll6</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>Gabriel Freitas — Copywriter DR</p>
   <p>Mercado Americano · 2026</p>
 </footer>
 
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+  });
+  (function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'var(--chrome-lt)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'var(--chrome-dim)'; });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => entry.target.classList.add('visible'), +delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.traj-block, .number-card, .nicho-item').forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 80;
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
