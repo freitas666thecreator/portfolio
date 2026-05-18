@@ -112,6 +112,40 @@
     animation: scrollPulse 2s ease-in-out infinite;
   }
 
+  /* DRIVE BAND */
+  .drive-band {
+    background: var(--black-2);
+    border-top: 1px solid var(--black-3);
+    border-bottom: 1px solid var(--black-3);
+    padding: 36px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .drive-band-left {}
+  .drive-band-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--chrome-dim); margin-bottom: 6px;
+  }
+  .drive-band-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--white); font-style: italic;
+  }
+  .drive-band-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 28px;
+    border: 1px solid var(--black-3);
+    color: var(--chrome-lt); text-decoration: none;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s, padding-left 0.2s;
+    border-left: 2px solid transparent;
+  }
+  .drive-band-btn:hover {
+    background: var(--black-3);
+    border-left-color: var(--chrome-dim);
+    padding-left: 36px;
+  }
+  .drive-band-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
   section { padding: 120px 60px; position: relative; }
   .section-inner { max-width: 1100px; margin: 0 auto; }
   .section-eyebrow {
@@ -243,6 +277,7 @@
     .nav-links { display: none; }
     .hero { padding: 0 28px 60px; }
     section { padding: 80px 28px; }
+    .drive-band { padding: 28px; flex-direction: column; align-items: flex-start; }
     .traj-grid { grid-template-columns: 1fr; gap: 40px; }
     .traj-sidebar { position: static; }
     .numbers-grid { grid-template-columns: repeat(2, 1fr); }
@@ -285,6 +320,25 @@
     <span>Scroll</span>
   </div>
 </section>
+
+<!-- DRIVE BAND -->
+<div class="drive-band">
+  <div class="drive-band-left">
+    <div class="drive-band-eyebrow">Amostras de anúncios</div>
+    <div class="drive-band-title">Ver anúncios reais</div>
+  </div>
+  <a class="drive-band-btn" href="https://drive.google.com/drive/folders/1KQ3-5pmGMAfjUvnbkjn18stIW4IMKG2X?usp=sharing" target="_blank" rel="noopener">
+    <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
+      <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+      <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/>
+      <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+      <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+      <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+      <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 27h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+    </svg>
+    Abrir no Google Drive →
+  </a>
+</div>
 
 <!-- TRAJETÓRIA -->
 <section id="trajetoria">
